@@ -11,5 +11,4 @@ class Point:
         return Point(self.x-point_c.x,self.y-point_c.y)
     def angle(point_a:Point,point_o:Point=Point(0,0)):
         p=point_a.soustraire(point_o)
-        return 
     
