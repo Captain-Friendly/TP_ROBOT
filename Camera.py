@@ -7,7 +7,6 @@
 import cv2
 
 class Camera:
-    """Une classe pour utiliser la camera de OpenCv"""
     LARGEUR_DEFAUT = 320
     HAUTEUR_DEFAUT = 240
     def __init__(self, largeur=LARGEUR_DEFAUT, hauteur=HAUTEUR_DEFAUT, indice=0):
@@ -48,7 +47,7 @@ class Camera:
         return (False, None)
 
     def convert_to_grayscale(img):
-        """Convertir une image en COLOR_BGR2GRAY"""
+        """Convertir image en grayscale"""
         return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 def main():
