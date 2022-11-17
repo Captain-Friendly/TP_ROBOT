@@ -1,0 +1,58 @@
+# Philippe C. Léger
+# 2022-09-01
+# Labo 1
+# Classe CollectionCirculaire: Classe permettant d'accumuler un nombre x
+# d'éléments. Lorsque la capacité est atteinte, le nouvel éléments écrase
+# l'éléments le plus ancien.
+
+
+class CollectionCirculaire:
+    def __init__(self, capacité):
+        self.__capacité = capacité
+        self.__nombre_éléments = 0
+        self.__éléments = []
+        self.__index_prochain = 0
+
+    def ajouter(self, élément):
+        if self.__nombre_éléments < self.__capacité:
+            self.__éléments.append(élément)
+            self.__nombre_éléments += 1
+        else:
+            self.__éléments[self.__index_prochain] = élément
+        self.__index_prochain = (self.__index_prochain + 1) % self.__capacité
+
+    def obtenir_valeurs(self):
+        return self.__éléments
+
+def main():
+    from statistics import mean
+
+    def test():
+        CAPACITÉ = 5
+        MAX = 16
+        sommes = [1,3,6,10,15,20,25,30,35,40,45,50,55,60,65,70]
+        moyennes = [1,1.5,2,2.5,3,4,5,6,7,8,9,10,11,12,13,14]
+        minimums = [1,1,1,1,1,2,3,4,5,6,7,8,9,10,11,12]
+        maximums = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+
+        def sont_valeurs_valides(valeurs, indice):
+            return sum(valeurs) == sommes[indice] and mean(valeurs) == moyennes[indice] and\
+                 min(valeurs) == minimums[indice] and max(valeurs) == maximums[indice]
+
+        valide = True
+        col = CollectionCirculaire(CAPACITÉ)
+        for i in range(MAX):
+            col.ajouter(i + 1)
+            valeurs = col.obtenir_valeurs()
+            valide = valide and sont_valeurs_valides(valeurs, i)
+
+        if valide:
+            print("Test CollectionCirculaire: RÉUSSI")
+        else:
+            print("Test CollectionCirculaire: ÉCHOUÉ")
+
+    test()
+
+
+if __name__ == "__main__":
+    main()
