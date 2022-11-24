@@ -12,8 +12,8 @@ def main():
     frame_precendente = None
     while True:
         compteur_frame +=1
-        img = cam.obtenir_image()
-        frame_actuelle = cam.convert_to_grayscale(img)
+        succes, img = cam.obtenir_image()
+        frame_actuelle = Camera.convert_to_grayscale(img)
         #cheque si le compyeur est pair
         if((compteur_frame % 2) == 0):
             frame_actuelle = cv2.GaussianBlur(src=frame_actuelle, ksize=(5,5), sigmaX=0)
@@ -49,3 +49,7 @@ def main():
 
             if cv2.waitKey(1) == ord('x'):
                 break
+
+
+if __name__ == "__main__":
+    main()
