@@ -1,0 +1,1 @@
+pscp -pw raspberry "C:\Users\julia\OneDrive - Collège Lionel-Groulx\Fifth\Dev\TP\*.py" pi@192.168.137.174:/home/pi/Documents/PFI
