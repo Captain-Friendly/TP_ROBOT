@@ -1,5 +1,6 @@
 import PyLidar3
 import time
+from Algos import Algos
 
 # angle:distence en mm
 # FRONT : 180°
@@ -14,12 +15,14 @@ import time
 # 25cm, 225° == (-17.678, -17.678)
 
 
-# A0000000000000000000B
-# 000000000000000000000
-# 000000000000000000000
-# 000000000000000000000
-# 000000000000000000000
-# C0000000000000000000D
+# AxxxxxxxxxxxxxxxxxxxB
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# CxxxxxxxxxxxxxxxxxxxD
 
 # A = (-50, 17.678)
 # B = (-17.678, 17.678)
@@ -27,10 +30,14 @@ import time
 # C = (-50, -17.678)
 # D = (-17.678, -17.678)
 
-MAX_X = -17.678
-MIN_X = -50
-MAX_Y = 17.678
-MIN_Y = -17.678
+MAX_X = -176.78
+# MIN_X = -500
+MIN_X = -1000
+MAX_Y = 176.78
+MIN_Y = -176.78
+
+ANGLE_MIN = 135
+ANGLE_MAX = 225
 
 class Lidar:
     def __init__(self):
@@ -44,29 +51,55 @@ class Lidar:
             gen = self.__sensor.StartScanning()
             data = {}
 
-            end = time.perf_counter() + 3
+            end = time.perf_counter() + 1
             while time.perf_counter() < end:
                 data = next(gen)
-                Dictionnaire: data[0:359] 
                 # print(data)               
                 time.sleep(0.5)
                 self.__sensor.StopScanning()
                 self.__sensor.Disconnect()
             
-            for angle in data:
-                # print(f"{data[angle]}")
-                print(f" °:{angle}\t Dist:{data[angle]}mm")
+            angle = ANGLE_MIN
+            compteur = 0
+            # print(data)
+            while angle <= ANGLE_MAX and compteur < 3:
+                # point = Algos.TrouverPosition(angle, data[angle])
+                # print(point)
+                if(data[angle] != 0):
+                    point = Algos.TrouverPosition(angle, data[angle])
+                    print(point)
+                    if(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
+                        compteur +=1
+                        print("angle suspicieux")
 
-                # if(data[angle] == 0):
-                #     print(f" °:{angle}\t Dist:{data[angle]}")
+                angle+=1
+
+            if(compteur >= 2):
+                print(f"objet dans la zone")
+            else:
+                print(f"zone vide")
+            
+            # while True:
+            #     compteur = 
+            #     for angle in data:
+            #         point = Algos.TrouverPosition(angle, data[angle])
+            #         print(f" °:{angle}\t Dist:{data[angle]}mm")
+
+            #         if(data[angle] == 0):
+            #             print(f" °:{angle}\t Dist:{data[angle]}")
         else:
             print("Erreur")
             self.__sensor.Reset()   
+
+    def Test():
+        print(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,-306, 43))
+        # -250, 0
 
 
 def main():
     lidar = Lidar()
     lidar.printShit()
+    # Lidar.Test()
 
     # shit = {1:55, 3:45}
     # print(type(shit))
