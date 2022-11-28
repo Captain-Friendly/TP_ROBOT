@@ -4,11 +4,33 @@ import time
 # angle:distence en mm
 # FRONT : 180°
 # BACK : 0°
-# TODO: rectangle au devant du robot, tranformer les coins de angle distance en x,y
 # geogebra: x^(2)+y^(2)=r^(2)
-# r est la distance 
-# https://www.math.net/circle-formula
 
+# x = distance * cos(angle)
+# y = distance * sin(angle)
+
+
+# 25cm, 135° == (-17,678, 17.678)
+# 25cm, 225° == (-17.678, -17.678)
+
+
+# A0000000000000000000B
+# 000000000000000000000
+# 000000000000000000000
+# 000000000000000000000
+# 000000000000000000000
+# C0000000000000000000D
+
+# A = (-50, 17.678)
+# B = (-17.678, 17.678)
+
+# C = (-50, -17.678)
+# D = (-17.678, -17.678)
+
+MAX_X = -17.678
+MIN_X = -50
+MAX_Y = 17.678
+MIN_Y = -17.678
 
 class Lidar:
     def __init__(self):

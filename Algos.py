@@ -7,7 +7,7 @@
 # Philippe C. Léger 2022-09-19: 
 # Ajout de la fonction sommer_resultat_f
 
-from math import inf
+import math
 
 
 class Algos:
@@ -35,7 +35,7 @@ class Algos:
         return somme
 
     def obtenir_element_max(lst, obtenir_valeur):
-        valeur_max = -inf
+        valeur_max = -math.inf
         element_max = None
         for e in lst:
             valeur = obtenir_valeur(e)
@@ -59,7 +59,29 @@ class Algos:
 
     def approx_egal(a, b, tol=0.00001):
         return abs(a - b) < tol
+    
+    #               (  x  ,   y  )
+    # 25cm, 315° == (17.67, 17.67)
+    # 25cm, 45° == (-17.67, 17.67)
+
+    def TrouverPosition(angle, distance):
+        """Transforme l'angle et la distance en position x,y\n
+         x = distance * cos(angle) \n
+         y = distance * sin(angle)"""
+        x = ( distance * math.cos(math.radians(angle))) 
+        y = distance * math.sin(math.radians(angle))
+        return x,y
         
+    def EstDansAire(minX, maxX, minY, maxY, x,y):
+        """Determine si un point x,y est à l'interieur d'une aire rectangulaire\n
+           à l'aide des x,y maximums et minimums"""
+        if x < minX or x > maxX:
+            return False
+        if y < minY or y > maxY:
+            return False
+
+        return True
+    
 
 def main():
     pass
