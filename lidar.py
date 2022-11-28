@@ -15,12 +15,14 @@ from Algos import Algos
 # 25cm, 225° == (-17.678, -17.678)
 
 
-# A0000000000000000000B
-# 000000000000000000000
-# 000000000000000000000
-# 000000000000000000000
-# 000000000000000000000
-# C0000000000000000000D
+# AxxxxxxxxxxxxxxxxxxxB
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# xxxxxxxxxxxxxxxxxxxxx
+# CxxxxxxxxxxxxxxxxxxxD
 
 # A = (-50, 17.678)
 # B = (-17.678, 17.678)
