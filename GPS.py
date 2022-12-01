@@ -65,13 +65,15 @@ def main():
             p=gps.get_position()
             if p is not None:
                 print(p.x,p.y)
+            else:
+                print("is bullshit")
             sleep(1)
         gps.stop()
 
     t = Thread(target=lambda: get_ma_position(jeton))
     t.start()
     input("Appuyez sur [enter pour terminer...]\n")
-    
+    jeton.terminer()
     t.join()
 
 if __name__=="__main__":
