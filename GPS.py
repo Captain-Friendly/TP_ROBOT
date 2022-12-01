@@ -15,7 +15,7 @@ class GPS:
         self.__jeton=JetonAnnulation()
         self.liste=CollectionCirculaire(2)
     
-    def __string_to_data(string:str):
+    def __string_to_data(string):
         s=string.decode("utf-8")
         print(s)
         data=s.split(",")
