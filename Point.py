@@ -12,7 +12,7 @@ class Point:
         self.y = y
     def soustraire(p0,p1):
         return Point(p0.x-p1.x,p0.y-p1.y)
-    def angle(point_a,point_o):
+    def angle(point_o, point_a):
         p=Point.soustraire(point_a, point_o)
         return atan2(p.y,p.x)/pi*180
     def distance(point_a,point_b):
@@ -31,7 +31,6 @@ def main():
         print(p_diff.egal(p_attendu))
 
     def test_angle(p0:Point, p1:Point, angle_attendu):
-        print(Point.angle(p0, p1))
         print(Algos.approx_egal(Point.angle(p0, p1), angle_attendu))
         # print(Point.angle(p0, p1) == angle_attendu)
 
@@ -48,27 +47,21 @@ def main():
     test_soustraire(point1, point2)
     test_soustraire(point1, point3)
 
-    test_angle(point1, point2, -90.0)
-    print(atan2(point2.y,point2.x)/pi*180)
-    print(atan2(-1,0)/pi*180)
-    
-    # print(Point.angle(point1,point2))
-    # p=Point.soustraire(point1,point2)
-    # print(p.x,p.y)
-    # print(Point.angle(point1,point3)==90)
-    # print(Point.angle(point1,point4)==180)
-    # print(Point.angle(point1,point5)==0)
-    # print(Point.angle(point1,point6)==-135)
-    # print(Point.angle(point1,point7)==135)
-    # print(Point.angle(point1,point8)==-45)
-    # print(Point.angle(point1,point9)==45)
-    # print(Point.angle(point9,point1)==-135)
-    # print(Point.angle(point9,point3)==180)
-    # print(Point.angle(point9,point5)==-90)
-    # print(Point.angle(point9,point6)==-135)
-    # print(Point.angle(point9,point7)==180)
-    # print(Point.angle(point9,point8)==-90)
-    # print(Point.angle(point9,point9)==0)
+    test_angle(point1, point2,-90.0)
+    test_angle(point1,point3,90)
+    test_angle(point1,point4,180)
+    test_angle(point1,point5,0)
+    test_angle(point1,point6,-135)
+    test_angle(point1,point7,135)
+    test_angle(point1,point8,-45)
+    test_angle(point1,point9,45)
+    test_angle(point9,point1,-135)
+    test_angle(point9,point3,180)
+    test_angle(point9,point5,-90)
+    test_angle(point9,point6,-135)
+    test_angle(point9,point7,180)
+    test_angle(point9,point8,-90)
+    test_angle(point9,point9,0)
     
 if __name__ == "__main__":
     main()
