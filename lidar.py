@@ -2,6 +2,8 @@ import PyLidar3
 import time
 from Algos import Algos
 
+import threading
+
 # angle:distence en mm
 # FRONT : 180°
 # BACK : 0°
@@ -44,6 +46,8 @@ class Lidar:
         port = "/dev/ttyUSB0"
         self.__sensor = PyLidar3.YdLidarX4(port) 
         self.objet_present = False
+        self.__jeton = False
+        self.__thread = threading.Thread(target=self.__scanner_thread)
 
     def printShit(self):
         """Prints data of lidar"""
@@ -83,12 +87,22 @@ class Lidar:
             self.__sensor.Reset()   
 
 
-    def scanner_thread(self):
+    def start_thread(self):
+        self.__thread.start()
+        self.end_thread()
+    
+    def end_thread(self):
+        input("Press key to stop\n")
+        self.__jeton = True
+        self.__thread.join()
+
+
+    def __scanner_thread(self):
         """Goes in a thread, changes state of objet_present, from True to False"""
 
         if(self.__sensor.Connect()):
             start = time.perf_counter()
-            while (time.perf_counter() - start < 10):
+            while (time.perf_counter() - start < 10 or self.__jeton == False):
                 gen = self.__sensor.StartScanning()
                 t = time.time() # start time 
                 data = {}
@@ -120,9 +134,6 @@ class Lidar:
             print("Lidar doesn't work")
 
 
-        self.__sensor.Disconnect() 
-
-
 
     def test():
         print(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,-306, 43))
@@ -140,7 +151,8 @@ class Lidar:
 
 def main():
     lidar = Lidar()
-    lidar.printShit()
+    # lidar.printShit()
+    lidar.start_thread()
     # lidar.scanner_thread()
     # lidar.reset()
     # Lidar.test()
