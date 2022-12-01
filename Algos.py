@@ -68,7 +68,7 @@ class Algos:
         """Transforme l'angle et la distance en position x,y\n
          x = distance * cos(angle) \n
          y = distance * sin(angle)"""
-        x = ( distance * math.cos(math.radians(angle))) 
+        x = distance * math.cos(math.radians(angle))
         y = distance * math.sin(math.radians(angle))
         return x,y
         
