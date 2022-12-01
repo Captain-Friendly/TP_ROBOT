@@ -6,7 +6,8 @@ from CollectionCirculaire import CollectionCirculaire
 from JetonAnnulation import JetonAnnulation
 from threading import Thread
 class GPS:
-    def __init__(self) -> None:
+    def __init__(self,période=1/4) -> None:
+        self.__période=période
         self.serial = serial.Serial() 
         self.serial.port = '/dev/ttyACM0'
         self.serial.baudrate = 115200
@@ -28,14 +29,15 @@ class GPS:
     def __t_start(self):
         while self.__jeton.continuer():
             self.liste.ajouter(self.__get_position())
-            sleep(1)
+            sleep(self.__période)
 
     def get_position(self):
         return self.liste.dernier_ajouté()
 
 
     def get_angle(self):
-        return self.liste.dernier_ajouté()
+
+        return None #Point.angle()
 
     def start(self):
         self.serial.write(b'\r\r')
@@ -51,6 +53,11 @@ class GPS:
 def main():
     gps= GPS()
     gps.start()
+    jeton=JetonAnnulation()
+    while jeton.continuer():
+        
+        sleep(1)
+        jeton.terminer()
     gps.stop()
 
 if __name__=="__main__":
