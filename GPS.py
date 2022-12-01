@@ -54,11 +54,20 @@ def main():
     gps= GPS()
     gps.start()
     jeton=JetonAnnulation()
+    def wait(j:JetonAnnulation):
+        input()
+        j.terminer()
+    t=Thread(lambda:wait(jeton))
+    t.start()
     while jeton.continuer():
-        
+        p=gps.get_position()
+        print(p.x,p.y)
         sleep(1)
+
         jeton.terminer()
     gps.stop()
+    
+    t.join()
 
 if __name__=="__main__":
     main()
