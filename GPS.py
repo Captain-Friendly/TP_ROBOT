@@ -67,10 +67,10 @@ def main():
             sleep(1)
         gps.stop()
 
-    t = Thread(lambda: get_ma_position(jeton))
+    t = Thread(target=lambda: get_ma_position(jeton))
     t.start()
-    print("Appuyez sur [enter pour terminer...]")
-    input()
+    # print()
+    input("Appuyez sur [enter pour terminer...]\n")
     
     t.join()
 
