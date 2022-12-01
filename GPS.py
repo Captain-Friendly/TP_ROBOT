@@ -25,7 +25,8 @@ class GPS:
 
     def __get_position(self):
         self.serial.write(b'lep\n')
-        data = str(self.serial.readline())
+        #data = str(self.serial.readline())
+        data = self.serial.readline().decode("utf-8")
         return GPS.__string_to_data(data)
 
     def __t_start(self):
