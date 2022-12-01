@@ -35,7 +35,7 @@ class GPS:
 
 
     def get_angle(self):
-        return self.liste.dernier_ajouté()
+        pass #return self.liste.dernier_ajouté()
 
     def start(self):
         self.serial.write(b'\r\r')
@@ -51,6 +51,7 @@ class GPS:
 def main():
     gps= GPS()
     gps.start()
+
     gps.stop()
 
 if __name__=="__main__":

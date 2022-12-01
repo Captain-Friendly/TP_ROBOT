@@ -43,7 +43,7 @@ class Lidar:
     def __init__(self):
         port = "/dev/ttyUSB0"
         self.__sensor = PyLidar3.YdLidarX4(port) 
-        self.__objet_present = False
+        self.objet_present = False
 
     def printShit(self):
         """Prints data of lidar"""
@@ -74,10 +74,8 @@ class Lidar:
                 angle+=1
 
             if(compteur >= 2):
-                self.__objet_present = True
                 print(f"objet dans la zone")
             else:
-                self.__objet_present = False
                 print(f"zone vide")
 
         else:
@@ -86,60 +84,67 @@ class Lidar:
 
 
     def scanner_thread(self):
-        """Prints data of lidar"""
-        if(self.__sensor.Connect()):
-            # print(self.__sensor.GetDeviceInfo())
-            gen = self.__sensor.StartScanning()
-            data = {}
+        """Goes in a thread, changes state of objet_present, from True to False"""
 
-            end = time.perf_counter() + 1
-            while True:
-                data = next(gen)
-                # print(data)               
-                time.sleep(0.5)
+        if(self.__sensor.Connect()):
+            start = time.perf_counter()
+            while (time.perf_counter() - start < 10):
+                gen = self.__sensor.StartScanning()
+                t = time.time() # start time 
+                data = {}
+                while (time.time() - t) < 0.5:
+                    data = next(gen)
+                    time.sleep(0.5)
                 self.__sensor.StopScanning()
-                self.__sensor.Disconnect()
-            
                 angle = ANGLE_MIN
                 compteur = 0
-                # print(data)
                 while angle <= ANGLE_MAX and compteur < 3:
-                    # point = Algos.TrouverPosition(angle, data[angle])
-                    # print(point)
                     if(data[angle] != 0):
                         point = Algos.TrouverPosition(angle, data[angle])
-                        print(point)
+                        # print(point)
                         if(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
                             compteur +=1
-                            print("angle suspicieux")
+                            # print("angle suspicieux")
 
                     angle+=1
 
                 if(compteur >= 2):
+                    self.objet_present = True
                     print(f"objet dans la zone")
                 else:
+                    self.objet_present = False
                     print(f"zone vide")
+
+            self.__sensor.Disconnect()
         else:
-            print("Erreur")
-            self.__sensor.Reset() 
+            print("Lidar doesn't work")
+
+
+        self.__sensor.Disconnect() 
 
 
 
-    def Test():
+    def test():
         print(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,-306, 43))
-        # -250, 0
+        print(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,20, 43))
 
 
+    def reset(self):
+        if(self.__sensor.Connect()):
+            self.__sensor.StartScanning()
+            self.__sensor.StopScanning()
+            self.__sensor.Disconnect()
+        else:
+            print("Huston, we have a problem")
 
 
 def main():
     lidar = Lidar()
     lidar.printShit()
-    # Lidar.Test()
+    # lidar.scanner_thread()
+    # lidar.reset()
+    # Lidar.test()
 
-    # shit = {1:55, 3:45}
-    # print(type(shit))
-    # print(shit)
 
 if __name__ == "__main__":
     main()
