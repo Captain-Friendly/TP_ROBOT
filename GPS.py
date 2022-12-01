@@ -52,20 +52,25 @@ class GPS:
 
 def main():
     gps= GPS()
-    gps.start()
+    
     jeton=JetonAnnulation()
-    def wait(j:JetonAnnulation):
-        input()
-        j.terminer()
-    t=Thread(lambda:wait(jeton))
-    t.start()
-    while jeton.continuer():
-        p=gps.get_position()
-        print(p.x,p.y)
-        sleep(1)
+    # def wait(j:JetonAnnulation):
+    #     input()
+    #     j.terminer()
+    # t=Thread(lambda:wait(jeton))
+    # t.start()
+    def get_ma_position(jeton):
+        gps.start()
+        while jeton.continuer():
+            p=gps.get_position()
+            print(p.x,p.y)
+            sleep(1)
+        gps.stop()
 
-        jeton.terminer()
-    gps.stop()
+    t = Thread(lambda: get_ma_position(jeton))
+    t.start()
+    print("Appuyez sur [enter pour terminer...]")
+    input()
     
     t.join()
 
