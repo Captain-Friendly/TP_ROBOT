@@ -16,8 +16,7 @@ class GPS:
         self.liste=CollectionCirculaire(2)
     
     def __string_to_data(string):
-        s=string.decode("utf-8")
-        data=s.split(",")
+        data=string.split(",")
 
         print("hors:",data[0])
         if data[0]=="POS":
