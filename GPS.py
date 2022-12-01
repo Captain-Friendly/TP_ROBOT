@@ -16,9 +16,8 @@ class GPS:
         self.liste=CollectionCirculaire(2)
     
     def __string_to_data(string):
-        s=string.decode("utf-8")
-        print(s)
-        data=s.split(",")
+        print(string)
+        data=string.split(",")
         if data[0]=="POS":
             return Point(float(data[1]),float(data[2]))
         else: return None
