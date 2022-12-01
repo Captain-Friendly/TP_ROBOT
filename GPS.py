@@ -17,11 +17,15 @@ class GPS:
     
     def __string_to_data(string):
         s=string.decode("utf-8")
-        print(s)
         data=s.split(",")
+
+        print("hors:",data[0])
         if data[0]=="POS":
+            print("good",data[0])
             return Point(float(data[1]),float(data[2]))
-        else: return None
+        else: 
+            print("bad:",data)
+            return None
 
     def __get_position(self):
         self.serial.write(b'lep\n')
