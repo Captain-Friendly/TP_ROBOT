@@ -69,7 +69,6 @@ def main():
 
     t = Thread(target=lambda: get_ma_position(jeton))
     t.start()
-    # print()
     input("Appuyez sur [enter pour terminer...]\n")
     
     t.join()
