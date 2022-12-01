@@ -63,11 +63,12 @@ def main():
         gps.start()
         while jeton.continuer():
             p=gps.get_position()
-            print(p.x,p.y)
+            if p is not None:
+                print(p.x,p.y)
             sleep(1)
         gps.stop()
 
-    t = Thread(lambda: get_ma_position(jeton))
+    t = Thread(target=lambda: get_ma_position(jeton))
     t.start()
     print("Appuyez sur [enter pour terminer...]")
     input()
