@@ -12,14 +12,19 @@ class CollectionCirculaire:
         self.__nombre_éléments = 0
         self.__éléments = []
         self.__index_prochain = 0
+        self.__dernier_ajoute=None
 
     def ajouter(self, élément):
+        self.__dernier_ajoute=élément
         if self.__nombre_éléments < self.__capacité:
             self.__éléments.append(élément)
             self.__nombre_éléments += 1
         else:
             self.__éléments[self.__index_prochain] = élément
         self.__index_prochain = (self.__index_prochain + 1) % self.__capacité
+
+    def dernier_ajouté(self):
+        return self.__dernier_ajoute
 
     def obtenir_valeurs(self):
         return self.__éléments

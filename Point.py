@@ -3,7 +3,7 @@
 # Labo 4
 # Classe Point: Classe représentant un Point (2d)
 
-from math import atan2,pi
+from math import atan2,pi,sqrt
 
 class Point:
     def __init__(self, x, y):
@@ -14,6 +14,10 @@ class Point:
     def angle(point_a,point_o):
         p=point_o.soustraire(point_a)
         return atan2(p.y,p.x)/pi*180
+    def distance(point_a,point_b):
+        point_x=point_a.x-point_b.x
+        point_y=point_a.y-point_b.y
+        return sqrt(point_x*point_x+point_y*point_y)
 
 def main():
     point1=Point(0,0)
