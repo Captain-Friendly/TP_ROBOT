@@ -55,8 +55,16 @@ def main():
             print("Test CollectionCirculaire: RÉUSSI")
         else:
             print("Test CollectionCirculaire: ÉCHOUÉ")
-
+    def test_dernier():
+        nombres=[1,2,3,4,5,6,7,8,9,0]
+        col = CollectionCirculaire(4)
+        for n in nombres:
+            col.ajouter(n)
+            print(n,n==col.dernier_ajouté())
     test()
+    print("---------------------")
+    test_dernier()
+
 
 
 if __name__ == "__main__":
