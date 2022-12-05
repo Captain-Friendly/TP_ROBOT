@@ -32,7 +32,8 @@ def main():
             differences = cv2.dilate(differences, kernel, 1)
 
             # prend les differences d'une taille minimum
-            differences_min =  cv2.threshold(src=differences, thresh=20, maxval=255, type=cv2.THRESH_BINARY)[1]
+            # differences_min =  cv2.threshold(src=differences, thresh=20, maxval=255, type=cv2.THRESH_BINARY)[1]
+            differences_min =  cv2.threshold(src=differences, thresh=70, maxval=255, type=cv2.THRESH_BINARY)[1]
 
 
             contours, _ = cv2.findContours(image=differences_min, mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
