@@ -50,7 +50,7 @@ class GPS:
                 difference=0.05
                 if self.liste.dernier_ajouté() is not None and Point.distance(pos,self.liste.dernier_ajouté())>difference:
                 # if self.__position is None or Point.distance(pos,self.__position)>difference:
-                    ###print(f"Ajouté: {pos.to_string()}")
+                    print(f"Ajouté: {pos.to_string()}")
                     self.liste.ajouter(pos)
                     # self.__position = pos
                 # else: print(f"Pas ajouté: {pos.to_string()}")
@@ -63,7 +63,7 @@ class GPS:
 
 
     def obtenir_angle(self):
-        valeurs=self.liste.obtenir_valeurs()
+        valeurs=self.liste.obtenir_valeurs_ordonnees()
         # if len(valeurs) == 0 or valeurs[0] is None: return None
         # angles = []
         # for i in range(1, len(valeurs)):
