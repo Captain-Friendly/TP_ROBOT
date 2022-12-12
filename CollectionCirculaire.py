@@ -27,6 +27,9 @@ class CollectionCirculaire:
         return self.__dernier_ajoute
 
     def obtenir_valeurs(self):
+        return self.__éléments
+
+    def obtenir_valeurs_ordonnees(self):
         valeurs = []
         éléments = self.__éléments
         nb_elements = len(éléments)
@@ -69,18 +72,18 @@ def main():
             col.ajouter(n)
             print(n,n==col.dernier_ajouté())
 
-    def test_obtenir_valeurs():
+    def test_obtenir_valeurs_ordonnees():
         col = CollectionCirculaire(5)
-        for i in range(10):
+        for i in range(24):
             col.ajouter(i)
 
-        for i in col.obtenir_valeurs():
+        for i in col.obtenir_valeurs_ordonnees():
             print(i)
     test()
     print("---------------------")
     test_dernier()
     print("---------------------")
-    test_obtenir_valeurs()
+    test_obtenir_valeurs_ordonnees()
 
 
 

@@ -18,7 +18,10 @@ class DirecteurIA:
         pass
 
     def avancer(self):
-        pass
+        self.robot.avancer()
+        angle_gps = self.__gps.obtenir_angle()
+        if angle_gps != None:
+            self.gyrometre.corriger_angle(angle_gps)
 
     def corriger_orientation(self):
         pass

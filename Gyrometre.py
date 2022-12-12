@@ -42,7 +42,11 @@ class Gyrometre:
     def abonner(self,callback):
         self.__list_callback.append(callback)
 
-    def corriger_gx(self, gx):
+    def assigner_angle(self, angle):
+        self.angle = angle
+        self.gx = 0
+
+    def corriger_angle(self, gx):
         return gx - self.correction_gx
 
     def reinitialiser(self, jeton:JetonAnnulation):
