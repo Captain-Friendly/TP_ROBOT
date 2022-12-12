@@ -18,7 +18,9 @@ class DirecteurIA:
         pass
 
     def avancer(self):
-        pa
+        pass
+
+    def 
     
     def decider(self, orientation, position, destination):
         angle_deplacement = Point.angle(position, destination)
