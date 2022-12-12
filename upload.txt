@@ -3,3 +3,6 @@ pscp -pw raspberry "C:\Users\julia\OneDrive - Collège Lionel-Groulx\Fifth\Dev\T
 
 
 pscp -pw raspberry "H:\school\Fifth\TP\*.py" pi@192.168.137.174:/home/pi/Documents/PFI
+
+
+192.168.137.174
