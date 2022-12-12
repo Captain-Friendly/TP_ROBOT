@@ -8,6 +8,8 @@ from time import perf_counter, sleep
 from ModuleInertiel import ModuleInertiel
 from Navigation import Navigation
 from icm20948 import ICM20948
+from JetonAnnulation import JetonAnnulation
+from Robot import Robot
 
 def construire_fil_robot(jeton, robot) -> Thread:
     from LecteurClavier import LecteurClavier
@@ -18,9 +20,7 @@ def construire_fil_robot(jeton, robot) -> Thread:
     return Thread(target=directeur.activer)
 
 def main():
-    from JetonAnnulation import JetonAnnulation
-    jeton = JetonAnnulation()
-    from Robot import Robot
+    jeton = JetonAnnulation()   
     robot = Robot.construire()
 
     t = construire_fil_robot(jeton, robot)
@@ -41,5 +41,8 @@ def main():
     robot.abonner(lambda etat: navigation.assigner_etat(etat))
     navigation.demarrer()
     t.join()
+
+    
+
 if __name__ == "__main__":
     main()

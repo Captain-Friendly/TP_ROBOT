@@ -20,16 +20,17 @@ class DirecteurIA:
     def avancer(self):
         pass
 
-    def 
+    def corriger_orientation(self):
+        pass
     
     def decider(self, orientation, position, destination):
         angle_deplacement = Point.angle(position, destination)
         if abs(orientation - angle_deplacement) > 10:
             # On tourne le robot
-            pass
+            self.corriger_orientation()
         elif Point.distance(position, destination) > 10:
             # On avance
-            pass
+            self.avancer()
         else:
             # Changer de destination, s'il en reste une
             self.destinations.pop(0)

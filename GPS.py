@@ -46,7 +46,7 @@ class GPS:
         while self.__jeton.continuer():
             pos=self.__get_position()
             if pos is not None:
-                difference=0.15
+                difference=0.20
                 if self.liste.dernier_ajouté() is None or Point.distance(pos,self.liste.dernier_ajouté())>difference:
                 # if self.__position is None or Point.distance(pos,self.__position)>difference:
                     print(f"Ajouté: {pos.to_string()}")
@@ -65,7 +65,10 @@ class GPS:
         valeurs=self.liste.obtenir_valeurs()
         
         if len(valeurs)==2 and valeurs[0] is not None and valeurs[1] is not None:
-            return Point.angle(valeurs[0],valeurs[1])
+            if valeurs[0] == self.liste.dernier_ajouté():
+                return Point.angle(valeurs[0],valeurs[1])
+            else:
+                return Point.angle(valeurs[1],valeurs[0])
         return None #Point.angle()
 
     def start(self):

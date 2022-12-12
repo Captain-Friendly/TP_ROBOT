@@ -12,26 +12,29 @@ class Gyrometre:
         self.__module_inertiel = module_inertiel
         self.angle=0
         self.gx = 0
-        self.jeton = jeton
+        self.__jeton = jeton
         self.__obtenir_temps = obtenir_temps
         self.__attendre = attendre
         
     def __boucle_obtenir_mesure(self):
         while(self.__jeton.continuer()):
-            ax, ay, az, gx, gy, gz=self.__moduleInertiel.obtenir_mesure()
+            ax, ay, az, gx, gy, gz=self.__module_inertiel.obtenir_mesure()
             t = self.__obtenir_temps()
             dt = t - self.t 
             self.t = t
             gx = self.corriger_gx(gx)
             self.angle += dt * (self.gx + gx) / 2 
             self.gx = gx
-            self.attendre()
+            self.__attendre()
 
     def demarrer(self):
         self.t = self.__obtenir_temps()
         self.angle = 0
         self.gx = 0
         self.__boucle_obtenir_mesure()
+
+    def obtenir_angle(self):
+        return self.angle
 
     def arreter(self):
         self.__jeton.terminer()
@@ -43,5 +46,5 @@ class Gyrometre:
         return gx - self.correction_gx
 
     def reinitialiser(self, jeton:JetonAnnulation):
-        self.jeton = jeton
+        self.__jeton = jeton
         self.demarrer()
