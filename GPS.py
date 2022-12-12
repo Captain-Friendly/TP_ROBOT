@@ -5,6 +5,7 @@ from Point import Point
 from CollectionCirculaire import CollectionCirculaire
 from JetonAnnulation import JetonAnnulation
 from threading import Thread
+from statistics import mean
 class GPS:
     def __init__(self, jeton:JetonAnnulation, période=1/10) -> None:
         self.__période=période
@@ -49,7 +50,7 @@ class GPS:
                 difference=0.05
                 if self.liste.dernier_ajouté() is None or Point.distance(pos,self.liste.dernier_ajouté())>difference:
                 # if self.__position is None or Point.distance(pos,self.__position)>difference:
-                    print(f"Ajouté: {pos.to_string()}")
+                    ###print(f"Ajouté: {pos.to_string()}")
                     self.liste.ajouter(pos)
                     # self.__position = pos
                 # else: print(f"Pas ajouté: {pos.to_string()}")
@@ -63,9 +64,16 @@ class GPS:
 
     def obtenir_angle(self):
         valeurs=self.liste.obtenir_valeurs()
+        if len(valeurs) == 0 or valeurs[0] is None: return None
+        angles = []
+        for i in range(1, len(valeurs)):
+            if valeurs[i] is not None:
+                angles.append(Point.angle(valeurs[0], valeurs[i]))
+        if len(angles) == 0: return None
+        return mean(angles)
         
-        if len(valeurs)==5 and valeurs[0] is not None and valeurs[4] is not None:
-                return Point.angle(valeurs[0],valeurs[4])
+        # if len(valeurs)==5 and valeurs[0] is not None and valeurs[4] is not None:
+        #         return Point.angle(valeurs[0],valeurs[4])
 
             # if valeurs[0] == self.liste.dernier_ajouté():
             #     return Point.angle(valeurs[0],valeurs[4])
