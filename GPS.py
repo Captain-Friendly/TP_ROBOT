@@ -64,16 +64,16 @@ class GPS:
 
     def obtenir_angle(self):
         valeurs=self.liste.obtenir_valeurs()
-        if len(valeurs) == 0 or valeurs[0] is None: return None
-        angles = []
-        for i in range(1, len(valeurs)):
-            if valeurs[i] is not None:
-                angles.append(Point.angle(valeurs[0], valeurs[i]))
-        if len(angles) == 0: return None
-        return mean(angles)
+        # if len(valeurs) == 0 or valeurs[0] is None: return None
+        # angles = []
+        # for i in range(1, len(valeurs)):
+        #     if valeurs[i] is not None:
+        #         angles.append(Point.angle(valeurs[0], valeurs[i]))
+        # if len(angles) == 0: return None
+        # return mean(angles)
         
-        # if len(valeurs)==5 and valeurs[0] is not None and valeurs[4] is not None:
-        #         return Point.angle(valeurs[0],valeurs[4])
+        if len(valeurs)==5 and valeurs[0] is not None and valeurs[4] is not None:
+                return Point.angle(valeurs[0],valeurs[4])
 
             # if valeurs[0] == self.liste.dernier_ajouté():
             #     return Point.angle(valeurs[0],valeurs[4])
