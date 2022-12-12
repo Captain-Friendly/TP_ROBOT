@@ -18,7 +18,7 @@ class GPS:
         self.serial.timeout = 1
         self.serial.open()
         self.__jeton=jeton
-        self.liste=CollectionCirculaire(5)
+        self.liste=CollectionCirculaire(2)
         self.__position = None
     
     def __string_to_data(string):
@@ -72,8 +72,8 @@ class GPS:
         # if len(angles) == 0: return None
         # return mean(angles)
         
-        if len(valeurs)==5 and valeurs[0] is not None and valeurs[4] is not None:
-                return Point.angle(valeurs[0],valeurs[4])
+        if len(valeurs)==2 and valeurs[0] is not None and valeurs[1] is not None:
+                return Point.angle(valeurs[0],valeurs[1])
 
             # if valeurs[0] == self.liste.dernier_ajouté():
             #     return Point.angle(valeurs[0],valeurs[4])
