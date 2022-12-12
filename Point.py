@@ -23,6 +23,9 @@ class Point:
     def egal(self, p):
         return self.x == p.x and self.y == p.y
 
+    def to_string(self):
+        return f"({self.x}, {self.y})"
+
 def main():
 
     def test_soustraire(p0:Point, p1:Point):

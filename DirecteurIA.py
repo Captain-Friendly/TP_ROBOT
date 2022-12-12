@@ -15,4 +15,9 @@ class DirecteurIA:
         from icm20948 import ICM20948
         from ModuleInertiel import ModuleInertiel
 
-        module_imertiel = ModuleInertiel(ICM20948)
+        module_inertiel = ModuleInertiel(ICM20948)
+        while
+        if angle_voulu > 0:
+            self.__robot.tourner_g()
+        else:
+            self.__robot.tourner_d()
