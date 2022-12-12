@@ -98,8 +98,8 @@ def main():
     def get_ma_position(jeton):
         gps.start()
         while jeton.continuer():
-            p=gps.get_position()
-            a=gps.get_angle()
+            p=gps.obtenir_position()
+            a=gps.obtenir_angle()
             if p is not None:
                 print(f"({p.x}, {p.y}) @ {a}°")
                 pass
