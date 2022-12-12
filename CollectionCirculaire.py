@@ -27,7 +27,14 @@ class CollectionCirculaire:
         return self.__dernier_ajoute
 
     def obtenir_valeurs(self):
-        return self.__éléments
+        valeurs = []
+        éléments = self.__éléments
+        nb_elements = len(éléments)
+        capacité = self.__capacité
+        prochain = self.__index_prochain
+        for i in range(nb_elements):
+            valeurs.append(éléments[(i + prochain) % capacité])
+        return valeurs
 
 def main():
     from statistics import mean
@@ -61,9 +68,19 @@ def main():
         for n in nombres:
             col.ajouter(n)
             print(n,n==col.dernier_ajouté())
+
+    def test_obtenir_valeurs():
+        col = CollectionCirculaire(5)
+        for i in range(10):
+            col.ajouter(i)
+
+        for i in col.obtenir_valeurs():
+            print(i)
     test()
     print("---------------------")
     test_dernier()
+    print("---------------------")
+    test_obtenir_valeurs()
 
 
 

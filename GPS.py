@@ -6,14 +6,17 @@ from CollectionCirculaire import CollectionCirculaire
 from JetonAnnulation import JetonAnnulation
 from threading import Thread
 class GPS:
-    def __init__(self,période=1/10) -> None:
+    def __init__(self, jeton:JetonAnnulation, période=1/10) -> None:
         self.__période=période
         self.serial = serial.Serial() 
         self.serial.port = '/dev/ttyACM0'
         self.serial.baudrate = 115200
-        # self.serial.timeout = 1
+        self.serial.bytesize = serial.EIGHTBITS
+        self.serial.parity = serial.PARITY_NONE
+        self.serial.stopbits = serial.STOPBITS_ONE
+        self.serial.timeout = 1
         self.serial.open()
-        self.__jeton=JetonAnnulation()
+        self.__jeton=jeton
         self.liste=CollectionCirculaire(2)
         self.__position = None
     
@@ -22,7 +25,7 @@ class GPS:
 
         #print("hors:",data[0])
         if data[0]=="POS":
-            print(f"good: {string}")
+            # print(f"good: {string}")
             return Point(float(data[1]),float(data[2]))
         else: 
             # print(f"bad: {string}")
@@ -43,17 +46,26 @@ class GPS:
         while self.__jeton.continuer():
             pos=self.__get_position()
             if pos is not None:
-                self.liste.ajouter(pos)
-                self.__position = pos
+                difference=0.15
+                if self.liste.dernier_ajouté() is None or Point.distance(pos,self.liste.dernier_ajouté())>difference:
+                # if self.__position is None or Point.distance(pos,self.__position)>difference:
+                    print(f"Ajouté: {pos.to_string()}")
+                    self.liste.ajouter(pos)
+                    # self.__position = pos
+                # else: print(f"Pas ajouté: {pos.to_string()}")
+            # else: print("Rien")
             sleep(self.__période)
 
     def get_position(self):
-        return self.__position
-        # return self.liste.dernier_ajouté()
+        # return self.__position
+        return self.liste.dernier_ajouté()
 
 
     def get_angle(self):
-
+        valeurs=self.liste.obtenir_valeurs()
+        
+        if len(valeurs)==2 and valeurs[0] is not None and valeurs[1] is not None:
+            return Point.angle(valeurs[0],valeurs[1])
         return None #Point.angle()
 
     def start(self):
@@ -70,9 +82,9 @@ class GPS:
         self.serial.close()
 
 def main():
-    gps= GPS()
     
     jeton=JetonAnnulation()
+    gps= GPS(jeton)
     # def wait(j:JetonAnnulation):
     #     input()
     #     j.terminer()
@@ -82,8 +94,10 @@ def main():
         gps.start()
         while jeton.continuer():
             p=gps.get_position()
+            a=gps.get_angle()
             if p is not None:
-                print(f"({p.x}, {p.y})")
+                print(f"({p.x}, {p.y}) @ {a}°")
+                pass
             else:
                 pass#print("is bullshit")
             sleep(0.5)
