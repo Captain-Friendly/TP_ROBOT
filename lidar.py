@@ -48,10 +48,6 @@ class Lidar:
         self.__thread = threading.Thread(target=self.détecter_objet)
 
 
-        
-            
-
-
     def demarrer(self):
         self.__thread.start()
     
@@ -89,12 +85,12 @@ class Lidar:
         while not obstacle_trouvé and angle <= ANGLE_MAX and compteur < 3:
             if(data[angle] != 0):
                 point = Algos.TrouverPosition(angle, data[angle])
-                print(point)
                 if(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
                     compteur +=1
                     print("angle suspicieux")
                     if compteur >= 3:
                         obstacle_trouvé = True
+                        print("objet trouver")
                 else:
                     compteur = 0
             angle+=1
