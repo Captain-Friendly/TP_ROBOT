@@ -22,7 +22,7 @@ class Gyrometre:
             t = self.__obtenir_temps()
             dt = t - self.t 
             self.t = t
-            gx = self.corriger_gx(gx)
+            gx = self.corriger_angle(gx)
             self.angle += dt * (self.gx + gx) / 2 
             self.gx = gx
             self.__attendre()
