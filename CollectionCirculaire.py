@@ -33,6 +33,7 @@ class CollectionCirculaire:
         valeurs = []
         éléments = self.__éléments
         nb_elements = len(éléments)
+        if nb_elements <= 1: return éléments
         capacité = self.__capacité
         prochain = self.__index_prochain
         for i in range(nb_elements):

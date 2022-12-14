@@ -79,7 +79,7 @@ class Gyrometre:
             etat = self.__obtenir_etat()
             if etat == EtatRobot.TOURNER:
                 gx = self.corriger_gx(gx)
-                self.angle += dt * (self.gx + gx) / 2 
+                self.angle = (self.angle + dt * Gyrometre.CORRECTION_ANGLE * (self.gx + gx) / 2) % 360
                 self.gx = gx
             else :
                 self.etalonner(gx)
@@ -108,7 +108,7 @@ class Gyrometre:
         self.correction_gx = mean(self.collection_gx.obtenir_valeurs())
 
     def obtenir_angle(self):
-        return self.angle *Gyrometre.CORRECTION_ANGLE
+        return self.angle 
 
     def construire(jeton:JetonAnnulation, robot:Robot):
         mod = ModuleInertiel.construire()

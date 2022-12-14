@@ -60,6 +60,9 @@ class Algos:
     def approx_egal(a, b, tol=0.00001):
         return abs(a - b) < tol
     
+    def approx_egal_point(p0, p1, tol=0.00001):
+        return Algos.approx_egal(p0.x, p1.x, tol) and Algos.approx_egal(p0.y, p1.y, tol)
+
     #               (  x  ,   y  )
     # 25cm, 315° == (17.67, 17.67)
     # 25cm, 45° == (-17.67, 17.67)

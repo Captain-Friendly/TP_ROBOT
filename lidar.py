@@ -31,7 +31,7 @@ import threading
 # Note: coordonnées en mm
 
 MAX_X = -176.78
-MIN_X = -1000
+MIN_X = -500
 
 MAX_Y = 176.78
 MIN_Y = -176.78
@@ -87,10 +87,10 @@ class Lidar:
                 point = Algos.TrouverPosition(angle, data[angle])
                 if(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
                     compteur +=1
-                    print("angle suspicieux")
+                    # print("angle suspicieux")
                     if compteur >= 3:
                         obstacle_trouvé = True
-                        print("objet trouver")
+                        # print("objet trouver")
                 else:
                     compteur = 0
             angle+=1

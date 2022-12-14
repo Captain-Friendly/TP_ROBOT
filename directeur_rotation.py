@@ -8,20 +8,24 @@ from JetonAnnulation import JetonAnnulation
 
 
 class Directeur_Rotation:
+    VITESSE_ROTATION = 1
+    TOLERANCE_ANGLE = 5
+    PERIODE = 0.05
+
     def __init__(self, jeton: JetonAnnulation, gyro: Gyrometre, robot: Robot):
         self.__gyro = gyro
         self.__ma_thread = threading.Thread(target=lambda: self.__gyro.demarrer())
         self.__robot = robot
     
-
-    def assigner_destination(self, desired_angle):
+    def assigner_destination(self, desired_angle, seuil=None):
         # étalonner gyro avant, pendant qu'on sait que le robot est immobile
+        if seuil is None: seuil = Directeur_Rotation.TOLERANCE_ANGLE
         current_angle = self.__gyro.obtenir_angle()
         diff_angle = (desired_angle - current_angle) % 360
-        if abs(diff_angle) < 5: return False
-        self.__robot.modifier_vitesse(0.6)
+        if abs(diff_angle) < seuil: return False
+        self.__robot.modifier_vitesse(Directeur_Rotation.VITESSE_ROTATION)
         # print(f"abs(diff): {abs(diff_angle)}")
-        while abs(diff_angle) > 5: 
+        while abs(diff_angle) > seuil: 
             # print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
             # if abs(diff_angle) < 50 and self.__robot.obtenir_vitesse() != 0.6: self.__robot.modifier_vitesse(0.6)
 
@@ -29,11 +33,11 @@ class Directeur_Rotation:
             else: self.__robot.tourner_g()
             current_angle = self.__gyro.obtenir_angle()
             diff_angle = (desired_angle - current_angle) % 360
-            sleep(0.05)
+            sleep(Directeur_Rotation.PERIODE)
 
         print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
         self.__robot.freiner()
-        self.__robot.modifier_vitesse(0.8)
+        # self.__robot.modifier_vitesse(0.8)
         return True
 
     def démarrer(self):
