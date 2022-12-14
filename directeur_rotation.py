@@ -19,14 +19,18 @@ class Directeur_Rotation:
         current_angle = self.__gyro.obtenir_angle()
         diff_angle = (desired_angle - current_angle) % 360
         print(f"abs(diff): {abs(diff_angle)}")
-        while abs(diff_angle) > 10: 
+        while abs(diff_angle) > 5: 
             print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
-            if diff_angle < 180: self.__robot.tourner_g()
-            else: self.__robot.tourner_d()
+            if abs(diff_angle) < 30: self.__robot.modifier_vitesse(0.5)
+            if diff_angle < 180: self.__robot.tourner_d()
+            else: self.__robot.tourner_g()
             current_angle = self.__gyro.obtenir_angle()
             diff_angle = (desired_angle - current_angle) % 360
-            sleep(0.1)
+            sleep(0.05)
+
+        print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
         self.__robot.freiner()
+        self.__robot.modifier_vitesse(0.8)
 
     def démarrer(self):
         self.__ma_thread.start()
@@ -49,10 +53,12 @@ def main():
     robot = Robot.construire()
     
     Moufasa = Directeur_Rotation(jeton, gyro, robot)
+    Moufasa.démarrer()
     while jeton.continuer():
         angle_str = input("Entrez l'angle désiré:")
-        if(angle_str == "x"):
+        if angle_str == "x":
             jeton.terminer()
+        elif angle_str == "a": print(f"Angle actuel: {gyro.obtenir_angle()}")
         else:
             Moufasa.set_destination(int(angle_str))
     
