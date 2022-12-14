@@ -18,10 +18,12 @@ class Directeur_Rotation:
         # étalonner gyro avant, pendant qu'on sait que le robot est immobile
         current_angle = self.__gyro.obtenir_angle()
         diff_angle = (desired_angle - current_angle) % 360
-        print(f"abs(diff): {abs(diff_angle)}")
+        self.__robot.modifier_vitesse(0.6)
+        # print(f"abs(diff): {abs(diff_angle)}")
         while abs(diff_angle) > 5: 
-            print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
-            if abs(diff_angle) < 30: self.__robot.modifier_vitesse(0.5)
+            # print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
+            # if abs(diff_angle) < 50 and self.__robot.obtenir_vitesse() != 0.6: self.__robot.modifier_vitesse(0.6)
+
             if diff_angle < 180: self.__robot.tourner_d()
             else: self.__robot.tourner_g()
             current_angle = self.__gyro.obtenir_angle()
