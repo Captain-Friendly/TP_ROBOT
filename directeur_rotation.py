@@ -15,13 +15,17 @@ class Directeur_Rotation:
         
         
     def set_destination(self, desired_angle):
+        # étalonner gyro avant, pendant qu'on sait que le robot est immobile
         current_angle = self.__gyro.obtenir_angle()
         diff_angle = (desired_angle - current_angle) % 360
-        while abs(diff_angle) < 10: 
-            current_angle = self.__gyro.obtenir_angle()
-            diff_angle = (desired_angle - current_angle) % 360
+        print(f"abs(diff): {abs(diff_angle)}")
+        while abs(diff_angle) > 10: 
+            print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
             if diff_angle < 180: self.__robot.tourner_g()
             else: self.__robot.tourner_d()
+            current_angle = self.__gyro.obtenir_angle()
+            diff_angle = (desired_angle - current_angle) % 360
+            sleep(0.1)
         self.__robot.freiner()
 
     def démarrer(self):
