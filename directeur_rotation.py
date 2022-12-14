@@ -43,14 +43,14 @@ class Directeur_Rotation:
 
 
 def main():
-    def construire_gyrometre(jeton):
+    def construire_gyrometre(jeton, robot):
         imu = ICM20948()
         mod = ModuleInertiel(imu)
-        return Gyrometre(mod, perf_counter, jeton, lambda: sleep(0.05))
+        return Gyrometre(mod, perf_counter, jeton, lambda: sleep(0.05), lambda: robot.obtenir_etat())
 
     jeton = JetonAnnulation()
-    gyro = construire_gyrometre(jeton)
     robot = Robot.construire()
+    gyro = construire_gyrometre(jeton, robot)
     
     Moufasa = Directeur_Rotation(jeton, gyro, robot)
     Moufasa.démarrer()
