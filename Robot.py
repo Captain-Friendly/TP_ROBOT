@@ -11,7 +11,7 @@ from EtatRobot import EtatRobot
 class Robot:
 
     FACTEURTOURNERAVANCER = 0.2
-    VITESSEDÉFAUT = 0.5
+    VITESSEDÉFAUT = 0.8
     VITESSEMAX = 1.0
     VITESSEMIN = 0.0
     INCRÉMENTVITESSE = 0.1
@@ -39,15 +39,18 @@ class Robot:
         self.__moteur_d.reculer(self.__vitesse)
 
     def augmenter_vitesse(self):
-        self.__modifier_vitesse(min(Robot.VITESSEMAX, self.__vitesse + Robot.INCRÉMENTVITESSE))
+        self.modifier_vitesse(min(Robot.VITESSEMAX, self.__vitesse + Robot.INCRÉMENTVITESSE))
 
     def réduire_vitesse(self):
-        self.__modifier_vitesse(max(Robot.VITESSEMIN, self.__vitesse - Robot.INCRÉMENTVITESSE))
+        self.modifier_vitesse(max(Robot.VITESSEMIN, self.__vitesse - Robot.INCRÉMENTVITESSE))
 
-    def __modifier_vitesse(self, nouvelle_vitesse):
+    def modifier_vitesse(self, nouvelle_vitesse):
         self.__vitesse = nouvelle_vitesse
         self.__moteur_g.modifier_vitesse(nouvelle_vitesse)
         self.__moteur_d.modifier_vitesse(nouvelle_vitesse)
+
+    def obtenir_vitesse(self):
+        return self.__vitesse
 
     def tourner_g(self):
         self.__etat = EtatRobot.TOURNER
