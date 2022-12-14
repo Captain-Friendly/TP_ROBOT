@@ -12,6 +12,8 @@ class Point:
         self.y = y
     def soustraire(p0,p1):
         return Point(p0.x-p1.x,p0.y-p1.y)
+    def additionner(p0,p1):
+        return Point(p0.x+p1.x,p0.y+p1.y)
     def angle(point_o, point_a):
         p=Point.soustraire(point_a, point_o)
         return atan2(p.y,p.x)/pi*180
@@ -25,6 +27,9 @@ class Point:
 
     def to_string(self):
         return f"({self.x}, {self.y})"
+
+    def calculer_norme(self):
+        return sqrt(self.x * self.x + self.y * self.y)
 
 def main():
 

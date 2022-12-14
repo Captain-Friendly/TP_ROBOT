@@ -12,12 +12,13 @@ class Directeur_Rotation:
         self.__gyro = gyro
         self.__ma_thread = threading.Thread(target=lambda: self.__gyro.demarrer())
         self.__robot = robot
-        
-        
-    def set_destination(self, desired_angle):
+    
+
+    def assigner_destination(self, desired_angle):
         # étalonner gyro avant, pendant qu'on sait que le robot est immobile
         current_angle = self.__gyro.obtenir_angle()
         diff_angle = (desired_angle - current_angle) % 360
+        if abs(diff_angle) < 5: return False
         self.__robot.modifier_vitesse(0.6)
         # print(f"abs(diff): {abs(diff_angle)}")
         while abs(diff_angle) > 5: 
@@ -33,6 +34,7 @@ class Directeur_Rotation:
         print(f"current: {current_angle}\tdesired: {desired_angle}\tdiff: {diff_angle}\n")
         self.__robot.freiner()
         self.__robot.modifier_vitesse(0.8)
+        return True
 
     def démarrer(self):
         self.__ma_thread.start()
@@ -41,6 +43,10 @@ class Directeur_Rotation:
     def terminer(self):
         self.__gyro.arreter()
         self.__ma_thread.join()
+
+    def construire(jeton:JetonAnnulation, robot:Robot):
+        gyro = Gyrometre.construire(jeton, robot)
+        return Directeur_Rotation(jeton, gyro, robot)
 
 
 
@@ -62,7 +68,7 @@ def main():
             jeton.terminer()
         elif angle_str == "a": print(f"Angle actuel: {gyro.obtenir_angle()}")
         else:
-            Moufasa.set_destination(int(angle_str))
+            Moufasa.assigner_destination(int(angle_str))
     
 
     

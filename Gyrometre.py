@@ -4,11 +4,12 @@
 # Classe Gyrometre: Classe permettant de suivre la position anglaire du module inertiel autour de l'abscisse
 #                   Basée sur la classe Navigation du laboratoire 6
 
+from time import perf_counter, sleep
 from JetonAnnulation import JetonAnnulation
 from ModuleInertiel import ModuleInertiel
 from statistics import mean
 from CollectionCirculaire import CollectionCirculaire
-from Robot import EtatRobot
+from Robot import EtatRobot, Robot
 
 class Gyrometre:
     CORRECTION_ANGLE=360.0/345
@@ -108,6 +109,10 @@ class Gyrometre:
 
     def obtenir_angle(self):
         return self.angle *Gyrometre.CORRECTION_ANGLE
+
+    def construire(jeton:JetonAnnulation, robot:Robot):
+        mod = ModuleInertiel.construire()
+        return Gyrometre(mod, perf_counter, jeton, lambda: sleep(0.05), lambda: robot.obtenir_etat())
 
 
 

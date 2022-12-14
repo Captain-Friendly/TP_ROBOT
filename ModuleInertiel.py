@@ -14,6 +14,11 @@ class ModuleInertiel:
     def obtenir_mesure(self):
         return self.__imu.read_accelerometer_gyro_data()
 
+    def construire():
+        from icm20948 import ICM20948
+        imu = ICM20948()
+        return ModuleInertiel(imu)
+
 
 class FauxModuleInertiel:
     def __init__(self):
