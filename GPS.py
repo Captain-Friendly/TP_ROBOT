@@ -18,7 +18,7 @@ class GPS:
         self.serial.timeout = 1
         self.serial.open()
         self.__jeton=jeton
-        self.liste=CollectionCirculaire(5)
+        self.liste=CollectionCirculaire(2)
         self.__position = None
     
     def __string_to_data(string):
@@ -48,9 +48,9 @@ class GPS:
             pos=self.__get_position()
             if pos is not None:
                 difference=0.05
-                if self.liste.dernier_ajouté() is None or Point.distance(pos,self.liste.dernier_ajouté())>difference:
+                if self.liste.dernier_ajouté() is not None and Point.distance(pos,self.liste.dernier_ajouté())>difference:
                 # if self.__position is None or Point.distance(pos,self.__position)>difference:
-                    ###print(f"Ajouté: {pos.to_string()}")
+                    print(f"Ajouté: {pos.to_string()}")
                     self.liste.ajouter(pos)
                     # self.__position = pos
                 # else: print(f"Pas ajouté: {pos.to_string()}")
@@ -63,17 +63,17 @@ class GPS:
 
 
     def obtenir_angle(self):
-        valeurs=self.liste.obtenir_valeurs()
-        if len(valeurs) == 0 or valeurs[0] is None: return None
-        angles = []
-        for i in range(1, len(valeurs)):
-            if valeurs[i] is not None:
-                angles.append(Point.angle(valeurs[0], valeurs[i]))
-        if len(angles) == 0: return None
-        return mean(angles)
+        valeurs=self.liste.obtenir_valeurs_ordonnees()
+        # if len(valeurs) == 0 or valeurs[0] is None: return None
+        # angles = []
+        # for i in range(1, len(valeurs)):
+        #     if valeurs[i] is not None:
+        #         angles.append(Point.angle(valeurs[0], valeurs[i]))
+        # if len(angles) == 0: return None
+        # return mean(angles)
         
-        # if len(valeurs)==5 and valeurs[0] is not None and valeurs[4] is not None:
-        #         return Point.angle(valeurs[0],valeurs[4])
+        if len(valeurs)==2 and valeurs[0] is not None and valeurs[1] is not None:
+                return Point.angle(valeurs[0],valeurs[1])
 
             # if valeurs[0] == self.liste.dernier_ajouté():
             #     return Point.angle(valeurs[0],valeurs[4])
