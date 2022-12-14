@@ -26,7 +26,7 @@ class Gyrometre:
             t = self.__obtenir_temps()
             dt = t - self.t 
             self.t = t
-            gx = self.corriger_angle(gx)
+            gx = self.corriger_gx(gx)
             self.angle += dt * (self.gx + gx) / 2 
             self.gx = gx
             self.__attendre()
@@ -45,7 +45,7 @@ class Gyrometre:
         self.__boucle_obtenir_mesure()
 
     def obtenir_angle(self):
-        return self.angle
+        return self.corriger_gx(self.angle)
 
     def arreter(self):
         self.__jeton.terminer()
@@ -82,10 +82,10 @@ def main():
         while perf_counter()-now<2:
             print(gyro.obtenir_angle())
             gyro.calibrer_gx(gyro.obtenir_angle())
-            sleep(0.05)
+            sleep(0.1)
         print("mesures")
         while jeton.continuer():
-            print(gyro.obtenir_angle())
+            print(gyro.obtenir_angle(), gyro.correction_gx)
             sleep(1)
         
 
