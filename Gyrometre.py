@@ -11,7 +11,7 @@ from CollectionCirculaire import CollectionCirculaire
 from Robot import EtatRobot
 
 class Gyrometre:
-    CORRECTION_ANGLE=25/24
+    CORRECTION_ANGLE=360.0/345
     def __init__(self, module_inertiel:ModuleInertiel, obtenir_temps, jeton: JetonAnnulation, attendre, obtenir_etat):
         self.__module_inertiel = module_inertiel
         self.angle=0
@@ -21,7 +21,6 @@ class Gyrometre:
         self.__obtenir_temps = obtenir_temps
         self.__attendre = attendre
         self.collection_gx = CollectionCirculaire(5)
-        self.__etat=EtatRobot.IMMOBILE
         self.__obtenir_etat = obtenir_etat
 
         
@@ -77,15 +76,13 @@ class Gyrometre:
             dt = t - self.t 
             self.t = t
             etat = self.__obtenir_etat()
-            if etat == EtatRobot.IMMOBILE:
-                self.etalonner(gx)
-                self.ay = 0
-                self.vy = 0
-                self.gx = 0
-            elif etat == EtatRobot.TOURNER :
+            if etat == EtatRobot.TOURNER:
                 gx = self.corriger_gx(gx)
                 self.angle += dt * (self.gx + gx) / 2 
                 self.gx = gx
+            else :
+                self.etalonner(gx)
+                #self.gx = 0
             self.__attendre()
 
     def demarrer(self):
@@ -110,7 +107,7 @@ class Gyrometre:
         self.correction_gx = mean(self.collection_gx.obtenir_valeurs())
 
     def obtenir_angle(self):
-        return self.angle*Gyrometre.CORRECTION_ANGLE
+        return self.angle *Gyrometre.CORRECTION_ANGLE
 
 
 
@@ -118,6 +115,7 @@ def main():
     from time import perf_counter, sleep
     from icm20948 import ICM20948
     from threading import Thread
+    from Robot import Robot
 
     imu = ICM20948()
     mod = ModuleInertiel(imu)
@@ -126,23 +124,38 @@ def main():
     gyro = Gyrometre(mod,perf_counter, jeton, lambda: sleep(0.05), lambda: etat[0])
     t_gyro= Thread(target=gyro.demarrer)
     t_gyro.start()
+    robot=Robot.construire()
 
     def printAngle():
-        print("étalonage")
-        now=perf_counter()
-        while perf_counter()-now<2:
-            gyro.etalonner()
-            sleep(0.1)
-        etat[0] = EtatRobot.TOURNER
+        # print("étalonage")
+        # now=perf_counter()
+        # while perf_counter()-now<2:
+        #     gyro.etalonner()
+        #     sleep(0.1)
+        etat[0] = EtatRobot.IMMOBILE
         # gyro.assigner_etat(EtatRobot.TOURNER)
         print("mesures")
         while jeton.continuer():
             print(gyro.obtenir_angle())
-            sleep(1)
+            sleep(0.5)
         
 
     t_print = Thread(target= printAngle)
     t_print.start()
+    # robot.avancer()
+    # sleep(5)
+    # robot.freiner()
+    
+    etat[0] = EtatRobot.IMMOBILE
+    sleep(3)
+    etat[0] = EtatRobot.TOURNER
+    sleep(5)
+    etat[0] = EtatRobot.IMMOBILE
+    sleep(3)
+    etat[0] = EtatRobot.TOURNER
+    sleep(5)
+    etat[0] = EtatRobot.IMMOBILE
+
     input("Appuyez sur [Entrer] pour quitter...")
     jeton.terminer()
     t_gyro.join()
