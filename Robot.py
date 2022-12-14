@@ -90,6 +90,9 @@ class Robot:
         for assigner_etat in self.__abonnes:
             assigner_etat(self.__etat)
 
+    def obtenir_etat(self):
+        return self.__etat
+
 
 
 
