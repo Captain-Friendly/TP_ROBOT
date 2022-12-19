@@ -9,12 +9,8 @@ from DirecteurRotation import DirecteurRotation
 from JetonAnnulation import JetonAnnulation
 from Point import Point
 from GPS import GPS
-from time import sleep
-from Algos import Algos
-from Lidar import Lidar
 from DirecteurIA import DirecteurIA
 from DetecteurMouvement import DetecteurMouvement
-import cv2
 
 
 def obtenir_position_depart(gps:GPS):
@@ -56,18 +52,13 @@ def detecter_mouvement():
     jeton =  JetonAnnulation()
     detecteur_mouvement = DetecteurMouvement(jeton)
     detecteur_mouvement.lancer_detection_mouvement(jeton)
-    # detecteur_mouvement.commencer(jeton)
-    # cv2.waitKey()
-    # detecteur_mouvement.finir()
 
 
 def main():
     jeton = JetonAnnulation()
     robot = Robot.construire()
     gps = GPS(jeton)
-    # gps.demarrer()
     directeur_rotation = DirecteurRotation.construire(jeton, robot)
-    detecteur_mouvement = DetecteurMouvement(JetonAnnulation())
     
     directeur = DirecteurIA(jeton, robot, directeur_rotation, gps)
     directeur.demarrer()
@@ -75,9 +66,6 @@ def main():
     # se deplace de m vers la gauche
 
     destinations = obtenir_points_L(gps)
-    # gps.terminer()
-    # print("succes")
-    # return
     for destination in destinations:
         if jeton.continuer(): 
             print(f"destination:{destination.to_string()}")

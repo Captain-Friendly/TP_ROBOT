@@ -53,7 +53,6 @@ class DetecteurMouvement:
                 differences = cv2.absdiff(src1=frame_precendente, src2=frame_actuelle)
                 frame_precendente = frame_actuelle
 
-                # I dont even know what this does
                 kernel = np.ones((5, 5))
                 differences = cv2.dilate(differences, kernel, 1)
 
@@ -97,7 +96,6 @@ def test():
             differences = cv2.absdiff(src1=frame_precendente, src2=frame_actuelle)
             frame_precendente = frame_actuelle
 
-            # I dont even know what this does
             kernel = np.ones((5, 5))
             differences = cv2.dilate(differences, kernel, 1)
 

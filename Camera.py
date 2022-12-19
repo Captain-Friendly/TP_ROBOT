@@ -24,9 +24,7 @@ class Camera:
 
     def demarrer(self):
         if not self.__actif: 
-            # self.__camera = cv2.VideoCapture(0)
             self.__camera = cv2.VideoCapture('/dev/video0', cv2.CAP_V4L)
-            # self.__camera = cv2.VideoCapture(self.__indice)
             self.__actif = self.__camera.isOpened()
             if self.__actif:
                 self.__camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.obtenir_largeur())

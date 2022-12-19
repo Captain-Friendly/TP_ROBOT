@@ -1,7 +1,8 @@
 # Pascal Arès, Philippe C. Léger & Julian Angel Murillo
 # 2022-12-19
 # PFI - Le robot autonome
-# classe DirecteurIA: Classe permettant de déplacer 
+# classe DirecteurIA: Classe permettant de déplacer le robot à une liste
+# de positions dans la classe.
 
 from Robot import Robot
 from DirecteurRotation import DirecteurRotation
@@ -36,9 +37,9 @@ class DirecteurIA:
     def assigner_destination(self, destination:Point):
         """Donne le point et tourne est déplace le robot"""
         
-        position_actuelle = self.__gps.obtenir_position()#chequer sa
+        position_actuelle = self.__gps.obtenir_position()
         while position_actuelle == None:
-            position_actuelle = self.__gps.obtenir_position()#chequer sa
+            position_actuelle = self.__gps.obtenir_position()
         
         print(f"Info\nPosition début {position_actuelle.to_string()}")
         angle_deplacement = Point.angle(position_actuelle, destination)

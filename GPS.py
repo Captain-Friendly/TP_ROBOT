@@ -11,7 +11,7 @@ from Point import Point
 from CollectionCirculaire import CollectionCirculaire
 from JetonAnnulation import JetonAnnulation
 from threading import Thread
-from statistics import mean
+
 class GPS:
     def __init__(self, jeton:JetonAnnulation, période=1/20) -> None:
         self.__période=période

@@ -36,7 +36,6 @@ class Gyrometre:
                 self.gx = gx
             else :
                 self.etalonner(gx)
-                #self.gx = 0
             self.__attendre()
 
     def demarrer(self):
@@ -45,12 +44,6 @@ class Gyrometre:
 
     def arreter(self):
         self.__jeton.terminer()
-
-    def assigner_etat(self,etat):
-        self.__etat=etat
-
-    # def obtenir_etat(self):
-    #     return self.__etat
 
     def corriger_gx(self, gx):
         return gx - self.correction_gx
@@ -85,13 +78,7 @@ def main():
     robot=Robot.construire()
 
     def printAngle():
-        # print("étalonage")
-        # now=perf_counter()
-        # while perf_counter()-now<2:
-        #     gyro.etalonner()
-        #     sleep(0.1)
         etat[0] = EtatRobot.IMMOBILE
-        # gyro.assigner_etat(EtatRobot.TOURNER)
         print("mesures")
         while jeton.continuer():
             print(gyro.obtenir_angle())
@@ -100,9 +87,6 @@ def main():
 
     t_print = Thread(target= printAngle)
     t_print.start()
-    # robot.avancer()
-    # sleep(5)
-    # robot.freiner()
     
     etat[0] = EtatRobot.IMMOBILE
     sleep(3)
