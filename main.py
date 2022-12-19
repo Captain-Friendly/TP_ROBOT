@@ -13,7 +13,7 @@ from time import sleep
 from Algos import Algos
 from Lidar import Lidar
 from DirecteurIA import DirecteurIA
-from DetectionMouvement import DetecteurMouvement
+from DetecteurMouvement import DetecteurMouvement
 import cv2
 
 
@@ -22,9 +22,11 @@ def obtenir_position_depart(gps:GPS):
     while depart is None:
         depart = gps.obtenir_position()
         print(depart)
+    return depart
 
 def obtenir_points_carre(gps:GPS):
     depart = obtenir_position_depart(gps)
+    print(f"position de départ: {depart.to_string()}")
     points = []
     points.append(Point.additionner(depart, Point(0, 2)))
     points.append(Point.additionner(depart, Point(2, 2)))
@@ -50,18 +52,22 @@ def obtenir_points_L(gps:GPS):
     points_L.append(points_carre[3])
     return points_L
 
-def detecter_mouvement(detecteur_mouvement:DetecteurMouvement):
+def detecter_mouvement():
     jeton =  JetonAnnulation()
-    detecteur_mouvement.commencer(jeton)
-    detecteur_mouvement.finir()
+    detecteur_mouvement = DetecteurMouvement(jeton)
+    detecteur_mouvement.lancer_detection_mouvement(jeton)
+    # detecteur_mouvement.commencer(jeton)
+    # cv2.waitKey()
+    # detecteur_mouvement.finir()
 
 
 def main():
     jeton = JetonAnnulation()
     robot = Robot.construire()
     gps = GPS(jeton)
+    # gps.demarrer()
     directeur_rotation = DirecteurRotation.construire(jeton, robot)
-    detecteur_mouvement = DetecteurMouvement()
+    detecteur_mouvement = DetecteurMouvement(JetonAnnulation())
     
     directeur = DirecteurIA(jeton, robot, directeur_rotation, gps)
     directeur.demarrer()
@@ -69,11 +75,14 @@ def main():
     # se deplace de m vers la gauche
 
     destinations = obtenir_points_L(gps)
+    # gps.terminer()
+    # print("succes")
+    # return
     for destination in destinations:
         if jeton.continuer(): 
             print(f"destination:{destination.to_string()}")
             directeur.assigner_destination(destination)
-            detecter_mouvement(detecteur_mouvement)
+            detecter_mouvement()
     directeur.terminer()
     robot.détruire()
 

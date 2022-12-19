@@ -45,7 +45,7 @@ class GPS:
 
 
 
-    def __t_start(self):
+    def __t_demarrer(self):
         while self.__jeton.continuer():
             pos=self.__obtenir_position()
             if pos is not None:
@@ -60,12 +60,12 @@ class GPS:
         sleep(1)
         self.serial.write(b'lep\n')
         sleep(1)
-        self.t_demarrer=Thread(target=self.__t_start)
-        self.t_start.star()
+        self.t_demarrer=Thread(target=self.__t_demarrer)
+        self.t_demarrer.start()
 
-    def stop(self):
+    def terminer(self):
         self.__jeton.terminer()
-        self.t_start.join()
+        self.t_demarrer.join()
         self.serial.close()
 
 def main():

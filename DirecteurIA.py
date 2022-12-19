@@ -14,7 +14,7 @@ from Lidar import Lidar
 
 class DirecteurIA:
     TOLERANCE_DISTANCE = 0.2
-    VITESSE_TRANSLATION = 0.5
+    VITESSE_TRANSLATION = 0.4
     PERIODE = 0.1
 
     def __init__(self, jeton: JetonAnnulation, robot:Robot, directeur_rotation: DirecteurRotation, gps:GPS):
@@ -82,7 +82,7 @@ class DirecteurIA:
 
 
     def terminer(self):
-        self.__gps.stop()
+        self.__gps.terminer()
         self.__directeur_rotation.terminer()
         self.__lidar.terminer()
 

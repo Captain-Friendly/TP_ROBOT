@@ -73,8 +73,8 @@ class Lidar:
             self.__sensor.Disconnect()
 
         else:
-            print("Huston, we have a problem, shit not connecting")
-            self.__sensor.Reassigner()   
+            print("Lidar ne se connecte pas, reboot le robot")
+            self.__sensor.Reset()   
 
         
     def __détecter_obstacle(self,data):

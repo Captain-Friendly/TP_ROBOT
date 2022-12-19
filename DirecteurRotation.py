@@ -12,7 +12,7 @@ from JetonAnnulation import JetonAnnulation
 
 
 class DirecteurRotation:
-    VITESSE_ROTATION = 1
+    VITESSE_ROTATION = 0.6
     TOLERANCE_ANGLE = 5
     PERIODE = 0.05
 
