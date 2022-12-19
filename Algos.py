@@ -6,6 +6,9 @@
 # Modifications:
 # Philippe C. Léger 2022-09-19: 
 # Ajout de la fonction sommer_resultat_f
+#######
+# Philippe C. Léger & Julian Angel Murillo 2022-12-09:
+# Ajout des fonctions trouver_position, est_dans_aire et approx_egal_point
 
 import math
 
@@ -67,7 +70,7 @@ class Algos:
     # 25cm, 315° == (17.67, 17.67)
     # 25cm, 45° == (-17.67, 17.67)
 
-    def TrouverPosition(angle, distance):
+    def trouver_position(angle, distance):
         """Transforme l'angle et la distance en position x,y\n
          x = distance * cos(angle) \n
          y = distance * sin(angle)"""
@@ -75,7 +78,7 @@ class Algos:
         y = distance * math.sin(math.radians(angle))
         return x,y
         
-    def EstDansAire(minX, maxX, minY, maxY, x,y):
+    def est_dans_aire(minX, maxX, minY, maxY, x,y):
         """Determine si un point x,y est à l'interieur d'une aire rectangulaire\n
            à l'aide des x,y maximums et minimums"""
         if x < minX or x > maxX:

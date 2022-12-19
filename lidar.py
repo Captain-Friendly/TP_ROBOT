@@ -1,3 +1,9 @@
+# Julian Angel Murillo
+# 2022-12-19
+# PFI - Le robot autonome
+# Classe Lidar: Classe permettant d'utiliser le Lidar PyLidar3
+# pour déterminer si on objet se trouve dans la zone de détection.
+
 import PyLidar3
 import time
 from Algos import Algos
@@ -9,7 +15,6 @@ import threading
 # distance en mm
 # AVANT : 180°
 # ARRIÈRE : 0°
-# geogebra: x^(2)+y^(2)=r^(2)
 
 # x = distance * cos(angle)
 # y = distance * sin(angle)
@@ -59,11 +64,8 @@ class Lidar:
     def détecter_objet(self):
         """Tant que le thread, continue, check si un objet est present"""
         if(self.__sensor.Connect()):
-            gen = self.__sensor.StartScanning()
-            # print(self.__sensor.GetDeviceInfo())
-            # end = time.perf_counter() + 10
+            gen = self.__sensor.startScanning()
             while self.__jeton.continuer():
-            # while end > time.perf_counter() and self.__jeton.continuer():
                 data = next(gen)
                 self.objet_present = self.__détecter_obstacle(data)
                 time.sleep(0.5)
@@ -72,7 +74,7 @@ class Lidar:
 
         else:
             print("Huston, we have a problem, shit not connecting")
-            self.__sensor.Reset()   
+            self.__sensor.Reassigner()   
 
         
     def __détecter_obstacle(self,data):
@@ -81,16 +83,13 @@ class Lidar:
         angle = ANGLE_MIN
         compteur = 0
         obstacle_trouvé = False
-        # print(data)
         while not obstacle_trouvé and angle <= ANGLE_MAX and compteur < 3:
             if(data[angle] != 0):
-                point = Algos.TrouverPosition(angle, data[angle])
-                if(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
+                point = Algos.trouver_position(angle, data[angle])
+                if(Algos.est_dans_aire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
                     compteur +=1
-                    # print("angle suspicieux")
                     if compteur >= 3:
                         obstacle_trouvé = True
-                        # print("objet trouver")
                 else:
                     compteur = 0
             angle+=1
@@ -102,8 +101,8 @@ class Lidar:
 
 def test(p1 = (-306,43), p2 = (20,43)):
     """Test si les point x et y sont dans le carré devant le robot"""
-    print(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,p1[0], p1[1]))
-    print(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,p2[0], p2[1]))
+    print(Algos.est_dans_aire(MIN_X,MAX_X,MIN_Y, MAX_Y,p1[0], p1[1]))
+    print(Algos.est_dans_aire(MIN_X,MAX_X,MIN_Y, MAX_Y,p2[0], p2[1]))
 
 def main():
     
@@ -115,36 +114,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-# shit i might need
- # if(self.__sensor.Connect()):
-#     while (time.perf_counter() - start < 10 or self.__jeton == False):
-#         gen = self.__sensor.StartScanning()
-#         t = time.time() # start time 
-#         data = {}
-#         while (time.time() - t) < 0.5:
-#             data = next(gen)
-#             time.sleep(0.5)
-#         self.__sensor.StopScanning()
-#         angle = ANGLE_MIN
-#         compteur = 0
-#         while angle <= ANGLE_MAX and compteur < 3:
-#             if(data[angle] != 0):
-#                 point = Algos.TrouverPosition(angle, data[angle])
-#                 # print(point)
-#                 if(Algos.EstDansAire(MIN_X,MAX_X,MIN_Y, MAX_Y,point[0], point[1])):
-#                     compteur +=1
-#                     # print("angle suspicieux")
-
-#             angle+=1
-
-#         if(compteur >= 2):
-#             self.objet_present = True
-#             print(f"objet dans la zone")
-#         else:
-#             self.objet_present = False
-#             print(f"zone vide")
-
-#     self.__sensor.Disconnect()
-# else:
-#     print("Lidar doesn't work")

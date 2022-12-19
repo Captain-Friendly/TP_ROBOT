@@ -1,8 +1,7 @@
-# Pascal Arès
+# Pascal Arès & Philippe C. Léger
 # 2022-12-05
-
 # Classe Gyrometre: Classe permettant de suivre la position anglaire du module inertiel autour de l'abscisse
-#                   Basée sur la classe Navigation du laboratoire 6
+# Basée sur la classe Navigation du laboratoire 6
 
 from time import perf_counter, sleep
 from JetonAnnulation import JetonAnnulation
@@ -24,52 +23,6 @@ class Gyrometre:
         self.collection_gx = CollectionCirculaire(5)
         self.__obtenir_etat = obtenir_etat
 
-        
-    # def __boucle_obtenir_mesure(self):
-    #     while(self.__jeton.continuer()):
-    #         ax, ay, az, gx, gy, gz=self.__module_inertiel.obtenir_mesure()
-    #         t = self.__obtenir_temps()
-    #         dt = t - self.t 
-    #         self.t = t
-    #         gx = self.corriger_gx(gx)
-    #         self.angle += dt * (self.gx + gx) / 2 
-    #         self.gx = gx
-    #         self.__attendre()
-
-    # def corriger_gx(self,gx):
-    #     return gx - self.correction_gx
-
-    # def calibrer_gx(self,gx=0):
-    #     self.collection_gx.ajouter(gx)
-    #     self.correction_gx = mean(self.collection_gx.obtenir_valeurs())
-
-    # def demarrer(self):
-    #     self.t = self.__obtenir_temps()
-    #     self.angle = 0
-    #     self.gx = 0
-    #     self.__boucle_obtenir_mesure()
-
-    # def obtenir_angle(self):
-    #     return self.corriger_gx(self.angle)
-
-    # def arreter(self):
-    #     self.__jeton.terminer()
-
-    # def abonner(self,callback):
-    #     self.__list_callback.append(callback)
-
-    # def assigner_angle(self, angle, gx=0):
-    #     self.angle = angle
-    #     self.gx = gx
-
-    # # def corriger_gx(self, gx):
-    # #     return gx - self.correction_gx
-
-    # def reinitialiser(self, jeton:JetonAnnulation):
-    #     self.__jeton = jeton
-    #     self.demarrer()
-
-##########################################
     def __boucle_obtenir_mesure(self):
         while(self.__jeton.continuer()):
             ax, ay, az, gx, gy, gz=self.__module_inertiel.obtenir_mesure()

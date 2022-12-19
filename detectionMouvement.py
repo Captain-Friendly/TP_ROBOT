@@ -1,3 +1,8 @@
+# Julian Angel Murillo
+# 2022-12-19
+# PFI - Le robot autonome
+# classe DetecteurMouvement: Utilise la camera pour detecter des mouvements 
+
 from Camera import Camera 
 import cv2
 import numpy as np
@@ -10,14 +15,15 @@ SEUIL_MIN = 70
 AIRE_MIN = 500
 
 class DetecteurMouvement:
-    def __init__(self):
+    def __init__(self) :
         self.__cam = Camera()
         # self.__thread = threading.Thread(target=self.detecter_mouvement)
         self.__thread = threading.Thread(target=self.__detecter_mouvement)
-        self.jeton = JetonAnnulation()
+        
         
 
-    def commencer(self):
+    def commencer(self,jeton:JetonAnnulation):
+        self.jeton = jeton
         self.__thread.start()
 
     def finir(self):

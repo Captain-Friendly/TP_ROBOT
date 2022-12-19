@@ -1,5 +1,0 @@
-pscp -pw raspberry "C:\Users\julia\OneDrive - Collège Lionel-Groulx\Fifth\Dev\TP\*.py" pi@192.168.137.174:/home/pi/Documents/PFI
-
-pscp -pw raspberry "C:\Users\julia\OneDrive - Collège Lionel-Groulx\Fifth\Dev\TP\directeur_rotation.py" pi@192.168.137.174:/home/pi/Documents/PFI
-
-192.168.137.174

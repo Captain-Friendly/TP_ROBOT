@@ -1,8 +1,9 @@
 # Philippe C. Léger
 # 2022-09-26
 # Labo 4
-# Classe Camera: classe facilitant l'utilisation d'une
-# VideoCapture d'OpenCV
+# Classe Camera: classe facilitant l'utilisation d'une VideoCapture d'OpenCV
+
+
 
 import cv2
 
@@ -27,8 +28,8 @@ class Camera:
             self.__camera = cv2.VideoCapture(self.__indice)
             self.__actif = self.__camera.isOpened()
             if self.__actif:
-                self.__camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.get_largeur())
-                self.__camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.get_hauteur())
+                self.__camera.assigner(cv2.CAP_PROP_FRAME_WIDTH, self.obtenir_largeur())
+                self.__camera.assigner(cv2.CAP_PROP_FRAME_HEIGHT, self.obtenir_hauteur())
             return self.__actif
         return False
 
